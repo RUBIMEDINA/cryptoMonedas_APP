@@ -1,43 +1,106 @@
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
-import Formulario from '../components/formulario'; 
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
-export default function HomeScreen() {
+export default function Formulario() {
+  const [moneda, setMoneda] = useState('');
+  const [criptomoneda, setCriptomoneda] = useState('');
+  const [mostrarMensaje, setMostrarMensaje] = useState(false);
+
+  const handleCotizar = () => {
+    setMostrarMensaje(true);
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.titulo}>
-          Cotizador de <Text style={styles.tituloBold}>Criptomonedas</Text>
-        </Text>
+    <View style={styles.container}>
+      {/* View padre - Text Moneda */}
+      <Text style={styles.label}>Moneda</Text>
+      
+      {/* Picker Moneda */}
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={moneda}
+          onValueChange={(itemValue) => {
+            setMoneda(itemValue);
+            setMostrarMensaje(false); // Ocultar mensaje si cambia la selección
+          }}
+        >
+          <Picker.Item label="Seleccione" value="" />
+          <Picker.Item label="Dolar USD" value="USD" />
+          <Picker.Item label="Peso Mexicano MXN" value="MXN" />
+          <Picker.Item label="Euro EUR" value="EUR" />
+          <Picker.Item label="Libra Esterlina GBP" value="GBP" />
+        </Picker>
       </View>
 
-      <ScrollView>
-        <Formulario />
-      </ScrollView>
-    </SafeAreaView>
+      {/* Text Criptomoneda */}
+      <Text style={styles.label}>Criptomoneda</Text>
+      
+      {/* Picker Criptomoneda */}
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={criptomoneda}
+          onValueChange={(itemValue) => {
+            setCriptomoneda(itemValue);
+            setMostrarMensaje(false); // Ocultar mensaje si cambia la selección
+          }}
+        >
+          <Picker.Item label="Seleccione" value="" />
+          {/*  agregar las criptomonedas  */}
+          <Picker.Item label="Bitcoin" value="BTC" />
+          <Picker.Item label="Ethereum" value="ETH" />
+          <Picker.Item label="Cardano" value="ADA" />
+        </Picker>
+      </View>
+
+      {/* Touchable Cotizar */}
+      <TouchableOpacity style={styles.btnCotizar} onPress={handleCotizar}>
+        <Text style={styles.btnTexto}>Cotizar</Text>
+      </TouchableOpacity>
+
+      {/* Funcionalidad: Al dar clic al btn mostrar un Text que diga "Formulario creado" */}
+      {mostrarMensaje && (
+        <Text style={styles.mensajeExito}>Formulario creado</Text>
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#F3F4F6',
+    padding: 20,
+    marginTop: 10,
   },
-  header: {
-    backgroundColor: '#FFF',
-    paddingVertical: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
-    marginBottom: 10,
-  },
-  titulo: {
-    textAlign: 'center',
-    fontSize: 24,
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
     color: '#374151',
-    fontWeight: '600',
   },
-  tituloBold: {
-    fontWeight: '900',
-    color: '#6D28D9',
+  pickerContainer: {
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+  },
+  btnCotizar: {
+    backgroundColor: '#6D28D9',
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  btnTexto: {
+    color: '#FFF',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  mensajeExito: {
+    marginTop: 20,
+    textAlign: 'center',
+    color: '#10B981',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 }); 
