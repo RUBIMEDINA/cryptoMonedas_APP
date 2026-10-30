@@ -22,7 +22,7 @@ export default function Formulario() {
           selectedValue={moneda}
           onValueChange={(itemValue) => {
             setMoneda(itemValue);
-            setMostrarMensaje(false); // Ocultar mensaje si cambia la selección
+            setMostrarMensaje(false); // Ocultar mensaje si cambia la selección y se seleciona el tipo de moneda
           }}
         >
           <Picker.Item label="Seleccione" value="" />
